@@ -1,5 +1,5 @@
 from constants import Colors;
-from point import Point;
+from point import Point, getMiddlePoint;
 
 import tkinter as tk;
 import math;
@@ -9,7 +9,16 @@ def main() -> None:
 
     root: tk.Tk = tk.Tk();
     root.title("Snell's Law Simulation");
+    root.attributes("-fullscreen", True);
     root["background"] = Colors.GRAY.value;
+
+    tk.Label(
+        root,
+        text = "n₁sin(θ₁) = n₂sin(θ₂)",
+        font = "Helvetica 24 bold",
+        bg = Colors.GRAY.value,
+        fg = Colors.WHITE.value
+    ).pack();
 
     canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
     canvasFrame.pack();
@@ -85,13 +94,22 @@ def main() -> None:
 
     drawButton: tk.Button = tk.Button(
         root,
-        text = "draw!",
+        text = "DRAW",
         font = "Helvetica 24 bold",
         bg = Colors.GRAY.value,
         fg = Colors.WHITE.value,
         command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry, RAYLENGTH, CENTER)
     );
     drawButton.pack();
+
+    tk.Button(
+        root,
+        text = "Exit",
+        font = "Helvetica 16 bold",
+        bg = Colors.DARK_RED.value,
+        fg = Colors.WHITE.value,
+        command = root.destroy
+    ).pack(pady = 5);
 
     root.mainloop();
 
@@ -134,6 +152,17 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float, center: Point, length: int):
     
     sourcePoint: Point = Point(center.x - source_x, center.y - source_y);
 
+    # arrow line (source -> middle)
+    canv.create_line(
+        [
+            sourcePoint.tuple,
+            getMiddlePoint([center, sourcePoint]).tuple
+        ],
+        fill = Colors.ORANGE.value,
+        width = 2,
+        arrow = tk.LAST
+    );
+
     incidentRay: tk._CanvasItemId = canv.create_line(
         [
             sourcePoint.tuple,
@@ -152,6 +181,17 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float, center: Point, length: int)
     source_x: int = length * math.cos(math.radians(90 - theta1));
     
     sourcePoint: Point = Point(center.x + source_x, center.y - source_y);
+
+    # arrow line (center -> middle)
+    canv.create_line(
+        [
+            center.tuple,
+            getMiddlePoint([center, sourcePoint]).tuple
+        ],
+        fill = Colors.ORANGE.value,
+        width = 2,
+        arrow = tk.LAST
+    );
 
     reflectedRay: tk._CanvasItemId = canv.create_line(
         [
@@ -175,6 +215,17 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, center: Point, length: int,
     source_x: int = length * math.cos(math.radians(90 - theta2));
     
     sourcePoint: Point = Point(center.x + source_x, center.y + source_y);
+
+    # arrow line (center -> middle)
+    canv.create_line(
+        [
+            center.tuple,
+            getMiddlePoint([center, sourcePoint]).tuple
+        ],
+        fill = Colors.ORANGE.value,
+        width = 2,
+        arrow = tk.LAST
+    );
 
     refractedRay: tk._CanvasItemId = canv.create_line(
         [
