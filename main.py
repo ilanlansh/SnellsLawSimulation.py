@@ -9,9 +9,9 @@ def main() -> None:
 
     root: tk.Tk = tk.Tk();
     root.title("Snell's Law Simulation");
-    root["background"] = Colors.LIGHTER_DARK_DARK_GRAY.value;
+    root["background"] = Colors.GRAY.value;
 
-    canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.LIGHTER_DARK_DARK_GRAY.value);
+    canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
     canvasFrame.pack();
 
     HEIGHT: int = 600;
@@ -23,28 +23,28 @@ def main() -> None:
         canvasFrame,
         width = WIDTH,
         height = HEIGHT,
-        background = Colors.DARK_DARK_GRAY.value
+        background = Colors.DARK_GRAY.value
     );
     canvas.pack();
 
     clearBoard(canvas);
 
-    entriesContainer: tk.Frame = tk.Frame(root, bg = Colors.LIGHTER_DARK_DARK_GRAY.value);
+    entriesContainer: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
     entriesContainer.pack(pady = 5);
 
     tk.Label(
         entriesContainer,
         text = "n₁: ",
         font = "Helvetica 24 bold",
-        bg = Colors.LIGHTER_DARK_DARK_GRAY.value,
+        bg = Colors.GRAY.value,
         fg = Colors.WHITE.value
     ).pack(side = tk.LEFT);
 
     n1Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.DARK_GRAY.value,
-        fg = Colors.DARK_DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY.value,
+        fg = Colors.DARK_GRAY.value,
         width = 5
     );
     n1Entry.pack(side = tk.LEFT);
@@ -53,15 +53,15 @@ def main() -> None:
         entriesContainer,
         text = "  n₂: ",
         font = "Helvetica 24 bold",
-        bg = Colors.LIGHTER_DARK_DARK_GRAY.value,
+        bg = Colors.GRAY.value,
         fg = Colors.WHITE.value
     ).pack(side = tk.LEFT);
 
     n2Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.DARK_GRAY.value,
-        fg = Colors.DARK_DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY.value,
+        fg = Colors.DARK_GRAY.value,
         width = 5
     );
     n2Entry.pack(side = tk.LEFT);
@@ -70,15 +70,15 @@ def main() -> None:
         entriesContainer,
         text = "  θ₁: ",
         font = "Helvetica 24 bold",
-        bg = Colors.LIGHTER_DARK_DARK_GRAY.value,
+        bg = Colors.GRAY.value,
         fg = Colors.WHITE.value
     ).pack(side = tk.LEFT);
 
     theta1Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.DARK_GRAY.value,
-        fg = Colors.DARK_DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY.value,
+        fg = Colors.DARK_GRAY.value,
         width = 5
     );
     theta1Entry.pack(side = tk.LEFT);
@@ -87,7 +87,7 @@ def main() -> None:
         root,
         text = "draw!",
         font = "Helvetica 24 bold",
-        bg = Colors.LIGHTER_DARK_DARK_GRAY.value,
+        bg = Colors.GRAY.value,
         fg = Colors.WHITE.value,
         command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry, RAYLENGTH, CENTER)
     );
