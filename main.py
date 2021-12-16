@@ -106,6 +106,10 @@ def main() -> None:
         command = root.destroy
     ).pack(pady = 5);
 
+    n1Entry.insert(0, "1");
+    n2Entry.insert(0, "1.5");
+    theta1Entry.insert(0, "60");
+
     root.mainloop();
 
 def clearBoard(canvas: tk.Canvas):
@@ -162,7 +166,7 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float, n1: int):
     velocity: float = SPEED_OF_LIGHT / n1;
 
     n1Label: tk.Label = tk.Label(
-        text = f"n₁ = {n1}\nv = {velocity} [km / s]",
+        text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), velocity),
         font = "Helvetica 14 bold",
         relief = tk.SUNKEN,
         bg = Colors.DARK_GRAY.value,
@@ -234,6 +238,18 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
         fill = Colors.WHITE.value,
         width = 2
     );
+
+    velocity: float = SPEED_OF_LIGHT / n2;
+
+    n1Label: tk.Label = tk.Label(
+        text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), velocity),
+        font = "Helvetica 14 bold",
+        relief = tk.SUNKEN,
+        bg = Colors.DARK_GRAY.value,
+        fg = Colors.WHITE.value
+    );
+
+    canv.create_window(WIDTH / 4.0, HEIGHT - 50, window = n1Label);
 
     return refractedRay;
 
