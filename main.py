@@ -1,4 +1,4 @@
-from constants import Colors;
+from constants import *;
 from point import Point, getMiddlePoint;
 
 import tkinter as tk;
@@ -22,11 +22,6 @@ def main() -> None:
 
     canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
     canvasFrame.pack();
-
-    HEIGHT: int = 600;
-    WIDTH:  int = 600;
-    CENTER: Point = Point(WIDTH * 0.5, HEIGHT * 0.5);
-    RAYLENGTH: int = 250;
 
     canvas: tk.Canvas = tk.Canvas(
         canvasFrame,
@@ -98,7 +93,7 @@ def main() -> None:
         font = "Helvetica 24 bold",
         bg = Colors.GRAY.value,
         fg = Colors.WHITE.value,
-        command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry, RAYLENGTH, CENTER)
+        command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry)
     );
     drawButton.pack();
 
@@ -118,14 +113,6 @@ def clearBoard(canvas: tk.Canvas):
 
     canvas.delete(tk.ALL);
 
-    HEIGHT: int = 600;
-    WIDTH:  int = 600;
-
-    TOPMOST:    Point = Point(WIDTH * 0.5, 0);
-    BOTTOMMOST: Point = Point(WIDTH * 0.5, HEIGHT);
-    LEFTMOST:   Point = Point(0, HEIGHT * 0.5);
-    RIGHTMOST:  Point = Point(WIDTH, HEIGHT * 0.5);
-
     canvas.create_line(
         [
             LEFTMOST.tuple, 
@@ -144,19 +131,19 @@ def clearBoard(canvas: tk.Canvas):
         fill = Colors.GREEN_YELLOW.value
     );
 
-def drawIncidentRay(canv: tk.Canvas, theta1: float, center: Point, length: int):
+def drawIncidentRay(canv: tk.Canvas, theta1: float, n1: int):
     '''Draws the Incident ray and returns the Canvas Line object.'''
 
-    source_y: int = length * math.cos(math.radians(theta1));
-    source_x: int = length * math.cos(math.radians(90 - theta1));
+    source_y: int = RAYLENGTH * math.cos(math.radians(theta1));
+    source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta1));
     
-    sourcePoint: Point = Point(center.x - source_x, center.y - source_y);
+    sourcePoint: Point = Point(CENTER.x - source_x, CENTER.y - source_y);
 
     # arrow line (source -> middle)
     canv.create_line(
         [
             sourcePoint.tuple,
-            getMiddlePoint([center, sourcePoint]).tuple
+            getMiddlePoint([CENTER, sourcePoint]).tuple
         ],
         fill = Colors.ORANGE.value,
         width = 2,
@@ -166,27 +153,39 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float, center: Point, length: int):
     incidentRay: tk._CanvasItemId = canv.create_line(
         [
             sourcePoint.tuple,
-            center.tuple
+            CENTER.tuple
         ],
         fill = Colors.WHITE.value,
         width = 2
     );
 
+    velocity: float = SPEED_OF_LIGHT / n1;
+
+    n1Label: tk.Label = tk.Label(
+        text = f"n₁ = {n1}\nv = {velocity} [km / s]",
+        font = "Helvetica 14 bold",
+        relief = tk.SUNKEN,
+        bg = Colors.DARK_GRAY.value,
+        fg = Colors.WHITE.value
+    );
+
+    canv.create_window(WIDTH / 4.0, 50, window = n1Label);
+
     return incidentRay;
 
-def drawReflectedRay(canv: tk.Canvas, theta1: float, center: Point, length: int):
+def drawReflectedRay(canv: tk.Canvas, theta1: float):
     '''Draws the Reflected ray and returns the Canvas Line object.'''
 
-    source_y: int = length * math.cos(math.radians(theta1));
-    source_x: int = length * math.cos(math.radians(90 - theta1));
+    source_y: int = RAYLENGTH * math.cos(math.radians(theta1));
+    source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta1));
     
-    sourcePoint: Point = Point(center.x + source_x, center.y - source_y);
+    sourcePoint: Point = Point(CENTER.x + source_x, CENTER.y - source_y);
 
     # arrow line (center -> middle)
     canv.create_line(
         [
-            center.tuple,
-            getMiddlePoint([center, sourcePoint]).tuple
+            CENTER.tuple,
+            getMiddlePoint([CENTER, sourcePoint]).tuple
         ],
         fill = Colors.ORANGE.value,
         width = 2,
@@ -195,7 +194,7 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float, center: Point, length: int)
 
     reflectedRay: tk._CanvasItemId = canv.create_line(
         [
-            center.tuple,
+            CENTER.tuple,
             sourcePoint.tuple
         ],
         fill = Colors.WHITE.value,
@@ -204,23 +203,23 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float, center: Point, length: int)
 
     return reflectedRay;
 
-def drawRefractedRay(canv: tk.Canvas, theta1: float, center: Point, length: int, n1: float, n2: float):
+def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
     '''Draws the Refracted ray and returns the Canvas Line object.'''
 
     theta2: float = math.degrees(math.asin(
         n1 * math.sin(math.radians(theta1)) / n2
     ));
 
-    source_y: int = length * math.cos(math.radians(theta2));
-    source_x: int = length * math.cos(math.radians(90 - theta2));
+    source_y: int = RAYLENGTH * math.cos(math.radians(theta2));
+    source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta2));
     
-    sourcePoint: Point = Point(center.x + source_x, center.y + source_y);
+    sourcePoint: Point = Point(CENTER.x + source_x, CENTER.y + source_y);
 
     # arrow line (center -> middle)
     canv.create_line(
         [
-            center.tuple,
-            getMiddlePoint([center, sourcePoint]).tuple
+            CENTER.tuple,
+            getMiddlePoint([CENTER, sourcePoint]).tuple
         ],
         fill = Colors.ORANGE.value,
         width = 2,
@@ -229,7 +228,7 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, center: Point, length: int,
 
     refractedRay: tk._CanvasItemId = canv.create_line(
         [
-            center.tuple,
+            CENTER.tuple,
             sourcePoint.tuple
         ],
         fill = Colors.WHITE.value,
@@ -238,7 +237,7 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, center: Point, length: int,
 
     return refractedRay;
 
-def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Entry, length: int, center: Point):
+def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Entry):
     '''Draw button callback. Draws the rays on the canvas.'''
 
     n1: float = float(n1Entry.get());
@@ -253,13 +252,13 @@ def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Ent
 
     clearBoard(c);
 
-    drawIncidentRay(c, theta1, center, length);
-
+    drawIncidentRay(c, theta1, n1);
+    
     if(n1 != n2):    
-        drawReflectedRay(c, theta1, center, length);
+        drawReflectedRay(c, theta1);
 
     if(theta1 < thetac):
-        drawRefractedRay(c, theta1, center, length, n1, n2);
+        drawRefractedRay(c, theta1, n1, n2);
 
 
 if (__name__ == '__main__'):
