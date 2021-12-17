@@ -106,6 +106,13 @@ def main() -> None:
         command = root.destroy
     ).pack(pady = 5);
 
+    tk.Label(
+        text = "Created by: Ilan Shrir & Gilbar Goncharov",
+        font = "Helvetica 12 bold",
+        bg = Colors.GRAY.value,
+        fg = Colors.WHITE.value
+    ).pack();
+
     n1Entry.insert(0, "1");
     n2Entry.insert(0, "1.5");
     theta1Entry.insert(0, "60");
@@ -135,7 +142,7 @@ def clearBoard(canvas: tk.Canvas):
         fill = Colors.GREEN_YELLOW.value
     );
 
-def drawIncidentRay(canv: tk.Canvas, theta1: float, n1: int):
+def drawIncidentRay(canv: tk.Canvas, theta1: float):
     '''Draws the Incident ray and returns the Canvas Line object.'''
 
     source_y: int = RAYLENGTH * math.cos(math.radians(theta1));
@@ -162,18 +169,6 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float, n1: int):
         fill = Colors.WHITE.value,
         width = 2
     );
-
-    velocity: float = SPEED_OF_LIGHT / n1;
-
-    n1Label: tk.Label = tk.Label(
-        text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), velocity),
-        font = "Helvetica 14 bold",
-        relief = tk.SUNKEN,
-        bg = Colors.DARK_GRAY.value,
-        fg = Colors.WHITE.value
-    );
-
-    canv.create_window(WIDTH / 4.0, 50, window = n1Label);
 
     return incidentRay;
 
@@ -239,21 +234,38 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
         width = 2
     );
 
-    velocity: float = SPEED_OF_LIGHT / n2;
-
-    n1Label: tk.Label = tk.Label(
-        text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), velocity),
-        font = "Helvetica 14 bold",
-        relief = tk.SUNKEN,
-        bg = Colors.DARK_GRAY.value,
-        fg = Colors.WHITE.value
-    );
-
-    canv.create_window(WIDTH / 4.0, HEIGHT - 50, window = n1Label);
-
     return refractedRay;
 
-def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Entry):
+def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
+    '''Draws data labels on the canvas that contain n1 and n2 values, and the speed of light in those materials'''
+
+    v1: float = SPEED_OF_LIGHT / n1;
+    c.create_window(
+        WIDTH / 4.0,
+        50,
+        window = tk.Label(
+            text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), v1),
+            font = "Helvetica 14 bold",
+            relief = tk.SUNKEN,
+            bg = Colors.DARK_GRAY.value,
+            fg = Colors.WHITE.value
+        )
+    );
+
+    v2: float = SPEED_OF_LIGHT / n2;
+    c.create_window(
+        WIDTH / 4.0,
+        HEIGHT - 50,
+        window = tk.Label(
+            text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), v2),
+            font = "Helvetica 14 bold",
+            relief = tk.SUNKEN,
+            bg = Colors.DARK_GRAY.value,
+            fg = Colors.WHITE.value
+        )
+    );
+
+def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Entry) -> None:
     '''Draw button callback. Draws the rays on the canvas.'''
 
     n1: float = float(n1Entry.get());
@@ -268,7 +280,7 @@ def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Ent
 
     clearBoard(c);
 
-    drawIncidentRay(c, theta1, n1);
+    drawIncidentRay(c, theta1);
     
     if(n1 != n2):    
         drawReflectedRay(c, theta1);
@@ -276,6 +288,7 @@ def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Ent
     if(theta1 < thetac):
         drawRefractedRay(c, theta1, n1, n2);
 
+    drawCanvasLabels(c, n1, n2);
 
 if (__name__ == '__main__'):
     main();
