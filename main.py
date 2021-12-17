@@ -10,45 +10,45 @@ def main() -> None:
     root: tk.Tk = tk.Tk();
     root.title("Snell's Law Simulation");
     root.attributes("-fullscreen", True);
-    root["background"] = Colors.GRAY.value;
+    root["background"] = Colors.GRAY;
 
     tk.Label(
         root,
         text = "n₁sin(θ₁) = n₂sin(θ₂)",
         font = "Helvetica 24 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value
+        bg = Colors.GRAY,
+        fg = Colors.WHITE
     ).pack();
 
-    canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
+    canvasFrame: tk.Frame = tk.Frame(root, bg = Colors.GRAY);
     canvasFrame.pack();
 
     canvas: tk.Canvas = tk.Canvas(
         canvasFrame,
         width = WIDTH,
         height = HEIGHT,
-        background = Colors.DARK_GRAY.value
+        background = Colors.DARK_GRAY
     );
     canvas.pack();
 
     clearBoard(canvas);
 
-    entriesContainer: tk.Frame = tk.Frame(root, bg = Colors.GRAY.value);
+    entriesContainer: tk.Frame = tk.Frame(root, bg = Colors.GRAY);
     entriesContainer.pack(pady = 5);
 
     tk.Label(
         entriesContainer,
         text = "n₁: ",
         font = "Helvetica 24 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value
+        bg = Colors.GRAY,
+        fg = Colors.WHITE
     ).pack(side = tk.LEFT);
 
     n1Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.LIGHT_GRAY.value,
-        fg = Colors.DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY,
+        fg = Colors.DARK_GRAY,
         width = 5
     );
     n1Entry.pack(side = tk.LEFT);
@@ -57,15 +57,15 @@ def main() -> None:
         entriesContainer,
         text = "  n₂: ",
         font = "Helvetica 24 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value
+        bg = Colors.GRAY,
+        fg = Colors.WHITE
     ).pack(side = tk.LEFT);
 
     n2Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.LIGHT_GRAY.value,
-        fg = Colors.DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY,
+        fg = Colors.DARK_GRAY,
         width = 5
     );
     n2Entry.pack(side = tk.LEFT);
@@ -74,15 +74,15 @@ def main() -> None:
         entriesContainer,
         text = "  θ₁: ",
         font = "Helvetica 24 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value
+        bg = Colors.GRAY,
+        fg = Colors.WHITE
     ).pack(side = tk.LEFT);
 
     theta1Entry: tk.Entry = tk.Entry(
         entriesContainer,
         font = "Helvetica 24",
-        bg = Colors.LIGHT_GRAY.value,
-        fg = Colors.DARK_GRAY.value,
+        bg = Colors.LIGHT_GRAY,
+        fg = Colors.DARK_GRAY,
         width = 5
     );
     theta1Entry.pack(side = tk.LEFT);
@@ -91,8 +91,8 @@ def main() -> None:
         root,
         text = "DRAW",
         font = "Helvetica 24 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value,
+        bg = Colors.GRAY,
+        fg = Colors.WHITE,
         command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry)
     );
     drawButton.pack();
@@ -101,16 +101,16 @@ def main() -> None:
         root,
         text = "Exit",
         font = "Helvetica 16 bold",
-        bg = Colors.DARK_RED.value,
-        fg = Colors.WHITE.value,
+        bg = Colors.DARK_RED,
+        fg = Colors.WHITE,
         command = root.destroy
     ).pack(pady = 5);
 
     tk.Label(
         text = "Created by: Ilan Shrir & Gilbar Goncharov",
         font = "Helvetica 12 bold",
-        bg = Colors.GRAY.value,
-        fg = Colors.WHITE.value
+        bg = Colors.GRAY,
+        fg = Colors.WHITE
     ).pack();
 
     n1Entry.insert(0, "1");
@@ -130,7 +130,7 @@ def clearBoard(canvas: tk.Canvas):
             RIGHTMOST.tuple
         ],
         width = 2,
-        fill = Colors.LIGHT_SEA_GREEN.value
+        fill = Colors.LIGHT_SEA_GREEN
     );
     canvas.create_line(
         [
@@ -139,7 +139,7 @@ def clearBoard(canvas: tk.Canvas):
         ],
         width = 2,
         dash = 255,
-        fill = Colors.GREEN_YELLOW.value
+        fill = Colors.GREEN_YELLOW
     );
 
 def drawIncidentRay(canv: tk.Canvas, theta1: float):
@@ -154,9 +154,9 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float):
     canv.create_line(
         [
             sourcePoint.tuple,
-            getMiddlePoint([CENTER, sourcePoint]).tuple
+            getMiddlePoint(CENTER, sourcePoint).tuple
         ],
-        fill = Colors.ORANGE.value,
+        fill = Colors.ORANGE,
         width = 2,
         arrow = tk.LAST
     );
@@ -166,7 +166,7 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float):
             sourcePoint.tuple,
             CENTER.tuple
         ],
-        fill = Colors.WHITE.value,
+        fill = Colors.WHITE,
         width = 2
     );
 
@@ -184,9 +184,9 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float):
     canv.create_line(
         [
             CENTER.tuple,
-            getMiddlePoint([CENTER, sourcePoint]).tuple
+            getMiddlePoint(CENTER, sourcePoint).tuple
         ],
-        fill = Colors.ORANGE.value,
+        fill = Colors.ORANGE,
         width = 2,
         arrow = tk.LAST
     );
@@ -196,7 +196,7 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float):
             CENTER.tuple,
             sourcePoint.tuple
         ],
-        fill = Colors.WHITE.value,
+        fill = Colors.WHITE,
         width = 2
     );
 
@@ -218,9 +218,9 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
     canv.create_line(
         [
             CENTER.tuple,
-            getMiddlePoint([CENTER, sourcePoint]).tuple
+            getMiddlePoint(CENTER, sourcePoint).tuple
         ],
-        fill = Colors.ORANGE.value,
+        fill = Colors.ORANGE,
         width = 2,
         arrow = tk.LAST
     );
@@ -230,7 +230,7 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
             CENTER.tuple,
             sourcePoint.tuple
         ],
-        fill = Colors.WHITE.value,
+        fill = Colors.WHITE,
         width = 2
     );
 
@@ -247,8 +247,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
             text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), v1),
             font = "Helvetica 14 bold",
             relief = tk.SUNKEN,
-            bg = Colors.DARK_GRAY.value,
-            fg = Colors.WHITE.value
+            bg = Colors.DARK_GRAY,
+            fg = Colors.WHITE
         )
     );
 
@@ -260,8 +260,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
             text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), v2),
             font = "Helvetica 14 bold",
             relief = tk.SUNKEN,
-            bg = Colors.DARK_GRAY.value,
-            fg = Colors.WHITE.value
+            bg = Colors.DARK_GRAY,
+            fg = Colors.WHITE
         )
     );
 
