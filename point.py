@@ -18,8 +18,8 @@ class Point:
 
         return f"Point({self.x}, {self.y})";
 
-def getMiddlePoint(points: list[Point]) -> Point:
-    '''Function to get the middle point of all points in a list'''
+def getMiddlePoint(*points: Point) -> Point:
+    '''Function to get the middle point of all points given as arguments'''
 
     x_sum: int = sum(map(lambda point: point.x, points));
     y_sum: int = sum(map(lambda point: point.y, points));
