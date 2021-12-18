@@ -87,16 +87,17 @@ def main() -> None:
     );
     theta1Entry.pack(side = tk.LEFT);
 
-    drawButton: tk.Button = tk.Button(
+    # Draw Button
+    tk.Button(
         root,
         text = "DRAW",
         font = "Helvetica 24 bold",
         bg = Colors.GRAY,
         fg = Colors.WHITE,
         command = lambda: draw(canvas, n1Entry, n2Entry, theta1Entry)
-    );
-    drawButton.pack();
+    ).pack();
 
+    # Exit Button
     tk.Button(
         root,
         text = "Exit",
@@ -106,6 +107,7 @@ def main() -> None:
         command = root.destroy
     ).pack(pady = 5);
 
+    # Credits
     tk.Label(
         text = "Created by: Ilan Shrir & Gilbar Goncharov",
         font = "Helvetica 12 bold",
@@ -120,7 +122,7 @@ def main() -> None:
     root.mainloop();
 
 def clearBoard(canvas: tk.Canvas):
-    '''Clears canvas and draws center lines.'''
+    '''Clears canvas and draws normal and interface lines.'''
 
     canvas.delete(tk.ALL);
 
@@ -132,6 +134,17 @@ def clearBoard(canvas: tk.Canvas):
         width = 2,
         fill = Colors.LIGHT_SEA_GREEN
     );
+    canvas.create_window(
+        10, HEIGHT * 0.5,
+        anchor = tk.W,
+        window = tk.Label(
+            text = "Interface",
+            font = "Helvetica 12 bold",
+            bg = Colors.DARK_GRAY,
+            fg = Colors.LIGHT_SEA_GREEN
+        )
+    );
+
     canvas.create_line(
         [
             TOPMOST.tuple,
@@ -140,6 +153,16 @@ def clearBoard(canvas: tk.Canvas):
         width = 2,
         dash = 255,
         fill = Colors.GREEN_YELLOW
+    );
+    canvas.create_window(
+        WIDTH * 0.5, 10,
+        anchor = tk.N,
+        window = tk.Label(
+            text = "Normal",
+            font = "Helvetica 12 bold",
+            bg = Colors.DARK_GRAY,
+            fg = Colors.GREEN_YELLOW
+        )
     );
 
 def drawIncidentRay(canv: tk.Canvas, theta1: float):
@@ -241,8 +264,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
 
     v1: float = SPEED_OF_LIGHT / n1;
     c.create_window(
-        WIDTH / 4.0,
-        50,
+        10, 10,
+        anchor = tk.NW,
         window = tk.Label(
             text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), v1),
             font = "Helvetica 14 bold",
@@ -254,8 +277,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
 
     v2: float = SPEED_OF_LIGHT / n2;
     c.create_window(
-        WIDTH / 4.0,
-        HEIGHT - 50,
+        10, HEIGHT - 10,
+        anchor = tk.SW,
         window = tk.Label(
             text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), v2),
             font = "Helvetica 14 bold",
