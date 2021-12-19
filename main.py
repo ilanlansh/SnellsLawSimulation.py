@@ -171,7 +171,7 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float):
     source_y: int = RAYLENGTH * math.cos(math.radians(theta1));
     source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta1));
     
-    sourcePoint: Point = Point(CENTER.x - source_x, CENTER.y - source_y);
+    sourcePoint: Point = Point(CENTER.x - source_x, CENTER.y - source_y); 
 
     # arrow line (source -> middle)
     canv.create_line(
@@ -227,6 +227,16 @@ def drawReflectedRay(canv: tk.Canvas, theta1: float):
 
 def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
     '''Draws the Refracted ray and returns the Canvas Line object.'''
+
+    thetac: float = 90.0;
+
+    if(n1 > n2):
+        thetac = math.degrees(math.asin(
+            n2 * math.sin(math.radians(90)) / n1
+        ));
+
+    if(theta1 > thetac):
+       return;
 
     theta2: float = math.degrees(math.asin(
         n1 * math.sin(math.radians(theta1)) / n2
@@ -294,24 +304,17 @@ def draw(c: tk.Canvas, n1Entry: tk.Entry, n2Entry: tk.Entry, theta1Entry: tk.Ent
     n1: float = float(n1Entry.get());
     n2: float = float(n2Entry.get());
     theta1: float = float(theta1Entry.get());
-    thetac: float = 90.0;
-
-    if(n1 > n2):
-        thetac: float = math.degrees(math.asin(
-        n2 * math.sin(math.radians(90)) / n1
-    ));
 
     clearBoard(c);
+
+    drawCanvasLabels(c, n1, n2);
 
     drawIncidentRay(c, theta1);
     
     if(n1 != n2):    
         drawReflectedRay(c, theta1);
 
-    if(theta1 < thetac):
-        drawRefractedRay(c, theta1, n1, n2);
-
-    drawCanvasLabels(c, n1, n2);
+    drawRefractedRay(c, theta1, n1, n2);
 
 if (__name__ == '__main__'):
     main();
