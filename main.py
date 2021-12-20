@@ -242,10 +242,25 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
         n1 * math.sin(math.radians(theta1)) / n2
     ));
 
-    source_y: int = RAYLENGTH * math.cos(math.radians(theta2));
-    source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta2));
+    source_y: float = RAYLENGTH * math.cos(math.radians(theta2));
+    source_x: float = RAYLENGTH * math.cos(math.radians(90 - theta2));
     
     sourcePoint: Point = Point(CENTER.x + source_x, CENTER.y + source_y);
+
+    aspired_y: float = RAYLENGTH * math.cos(math.radians(theta1));
+    aspired_x: float = RAYLENGTH * math.cos(math.radians(90 - theta1));
+
+    aspiredPoint: Point = Point(CENTER.x + aspired_x, CENTER.y + aspired_y);
+
+    # aspired ray
+    canv.create_line(
+        [
+            CENTER.tuple,
+            aspiredPoint.tuple
+        ],
+        fill = Colors.LIGHT_GRAY,
+        dash = 5
+    );
 
     # arrow line (center -> middle)
     canv.create_line(
@@ -274,8 +289,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
 
     v1: float = SPEED_OF_LIGHT / n1;
     c.create_window(
-        10, 10,
-        anchor = tk.NW,
+        WIDTH * 0.25 - 20, 10,
+        anchor = tk.N,
         window = tk.Label(
             text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), v1),
             font = "Helvetica 14 bold",
@@ -287,8 +302,8 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
 
     v2: float = SPEED_OF_LIGHT / n2;
     c.create_window(
-        10, HEIGHT - 10,
-        anchor = tk.SW,
+        WIDTH * 0.25 - 20, HEIGHT - 10,
+        anchor = tk.S,
         window = tk.Label(
             text = "n₂ = %s\nv = %.2f [km / s]" % (str(n2), v2),
             font = "Helvetica 14 bold",

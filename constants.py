@@ -17,7 +17,7 @@ class Colors():
     ORANGE: str = '#FF8000';
 
 HEIGHT: int = 600;
-WIDTH:  int = 600;
+WIDTH:  int = 700;
 RAYLENGTH: int = 250;
 
 TOPMOST:    Point = Point(WIDTH * 0.5, 0);
