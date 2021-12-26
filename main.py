@@ -115,6 +115,7 @@ def main() -> None:
         fg = Colors.WHITE
     ).pack();
 
+    # default values
     n1Entry.insert(0, "1");
     n2Entry.insert(0, "1.5");
     theta1Entry.insert(0, "60");
@@ -172,6 +173,19 @@ def drawIncidentRay(canv: tk.Canvas, theta1: float):
     source_x: int = RAYLENGTH * math.cos(math.radians(90 - theta1));
     
     sourcePoint: Point = Point(CENTER.x - source_x, CENTER.y - source_y); 
+
+    # theta1 Label
+    canv.create_window(
+        WIDTH * 0.25 - 20, 20,
+        anchor = tk.N,
+        window = tk.Label(
+            text = "θ₁ = %.2f" % theta1,
+            font = "Helvetica 14 bold",
+            relief = tk.SUNKEN,
+            bg = Colors.DARK_GRAY,
+            fg = Colors.WHITE
+        )
+    );
 
     # arrow line (source -> middle)
     canv.create_line(
@@ -242,6 +256,8 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
         n1 * math.sin(math.radians(theta1)) / n2
     ));
 
+    thetaDelta: float = abs(theta1 - theta2);
+
     source_y: float = RAYLENGTH * math.cos(math.radians(theta2));
     source_x: float = RAYLENGTH * math.cos(math.radians(90 - theta2));
     
@@ -260,6 +276,19 @@ def drawRefractedRay(canv: tk.Canvas, theta1: float, n1: float, n2: float):
         ],
         fill = Colors.LIGHT_GRAY,
         dash = 5
+    );
+
+    # theta2 Label
+    canv.create_window(
+        WIDTH * 0.75 + 20, HEIGHT - 20,
+        anchor = tk.S,
+        window = tk.Label(
+            text = "θ₂ = %.2f" % theta2,
+            font = "Helvetica 14 bold",
+            relief = tk.SUNKEN,
+            bg = Colors.DARK_GRAY,
+            fg = Colors.WHITE
+        )
     );
 
     # arrow line (center -> middle)
@@ -289,7 +318,7 @@ def drawCanvasLabels(c: tk.Canvas, n1: float, n2: float) -> None:
 
     v1: float = SPEED_OF_LIGHT / n1;
     c.create_window(
-        WIDTH * 0.25 - 20, 10,
+        WIDTH * 0.75 + 20, 10,
         anchor = tk.N,
         window = tk.Label(
             text = "n₁ = %s\nv = %.2f [km / s]" % (str(n1), v1),

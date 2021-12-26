@@ -2,7 +2,7 @@ from point import Point;
 
 import scipy.constants as spc;
 
-class Colors():
+class Colors:
     '''
     Class for a collection of color values
     '''
@@ -16,9 +16,9 @@ class Colors():
     DARK_RED: str = '#3D0103';
     ORANGE: str = '#FF8000';
 
-HEIGHT: int = 600;
-WIDTH:  int = 700;
-RAYLENGTH: int = 250;
+HEIGHT: float = 600.0;
+WIDTH:  float = 700.0;
+RAYLENGTH: float = 250.0;
 
 TOPMOST:    Point = Point(WIDTH * 0.5, 0);
 BOTTOMMOST: Point = Point(WIDTH * 0.5, HEIGHT);
