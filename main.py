@@ -109,7 +109,7 @@ def main() -> None:
 
     # Credits
     tk.Label(
-        text = "Created by: Ilan Shrir & Gilbar Goncharov",
+        text = "Created by: Ilan Shrir",
         font = "Helvetica 12 bold",
         bg = Colors.GRAY,
         fg = Colors.WHITE

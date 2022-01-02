@@ -17,7 +17,7 @@ class Colors:
     ORANGE: str = '#FF8000';
 
 HEIGHT: float = 600.0;
-WIDTH:  float = 700.0;
+WIDTH:  float = 600.0;
 RAYLENGTH: float = 250.0;
 
 TOPMOST:    Point = Point(WIDTH * 0.5, 0);
