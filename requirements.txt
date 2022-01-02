@@ -1,0 +1,11 @@
+altgraph==0.17.2
+cffi==1.15.0        
+cryptography==36.0.1
+future==0.18.2      
+numpy==1.21.4       
+pefile==2021.9.3    
+pycparser==2.21     
+pyinstaller==4.7    
+pyinstaller-hooks-contrib==2021.4
+pywin32-ctypes==0.2.0
+scipy==1.7.3
